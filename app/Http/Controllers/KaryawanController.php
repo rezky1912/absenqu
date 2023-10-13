@@ -17,8 +17,8 @@ class KaryawanController extends Controller
         $query->select('karyawans.*', 'nama_div');
         $query->join('divisi', 'karyawans.kode_div', '=', 'divisi.kode_div');
         $query->orderBy('nama_lengkap');
-        if (!empty($request->nama_karyawan)) {
-            $query->where('nama_lengkap', 'like', '%'.$request->nama_karyawan.'%');
+        if (!empty($request->nama_lengkap)) {
+            $query->where('nama_lengkap', 'like', '%'.$request->nama_lengkap.'%');
         }
 
         if (!empty($request->kode_div)) {
@@ -66,7 +66,11 @@ class KaryawanController extends Controller
                 return Redirect::back()->with(['success' => 'Data Berhsil Disimpan']);
             }
         } catch (\Exception $e) {
-            return Redirect::back()->with(['success' => 'Data Gagal Disimpan']);
+            if ($e->getCode() == 23000) {
+                $message = 'Data dengan NIK'.$nik.'Sudah Ada';
+            }
+
+            return Redirect::back()->with(['warning' => 'Data Gagal Disimpan'.$message]);
         }
     }
 
@@ -74,12 +78,12 @@ class KaryawanController extends Controller
     {
         $nik = $request->nik;
         $divisi = DB::table('divisi')->get();
-        $karyawan = DB::table('karyawans')->where('nik', '$nik')->first();
+        $karyawan = DB::table('karyawans')->where('nik', $nik)->first();
 
         return view('karyawan.edit', compact('divisi', 'karyawan'));
     }
 
-    public function update(Request $request)
+    public function update($nik, Request $request)
     {
         $nik = $request->nik;
         $nama_lengkap = $request->nama_lengkap;

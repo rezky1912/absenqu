@@ -88,6 +88,7 @@
                     <div class="dropdown-menu">
                         <div class="dropdown menu-columns">
                         <a class="dropdown-item" href="/konfigurasi/lokasikantor">Lokasi Kantor</a>
+                        <a class="dropdown-item" href="/konfigurasi/jamkerja">Jam Kerja</a>
                     </div>
                 </li>
                 </ul>

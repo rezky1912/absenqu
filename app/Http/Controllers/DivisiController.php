@@ -31,6 +31,11 @@ class DivisiController extends Controller
             'kode_div' => $kode_div,
             'nama_div' => $nama_div,
         ];
+        $cek = DB::table('divisi')->where('kode_div', $kode_div)->count();
+        if ($cek > 0) {
+            return Redirect::back()->with(['warning' => 'Data dengan kode div.'.$kode_div.'Sudah Ada']);
+        }
+
         $simpan = DB::table('divisi')->insert($data);
         if ($simpan) {
             return Redirect::back()->with(['success' => 'Data Berhasil Disimpan']);

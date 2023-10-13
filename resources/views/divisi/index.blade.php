@@ -13,12 +13,23 @@
     </div>
 </div>
 
+
 <div class="page-body">
     <div class="container-xl">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                    @if (Session::get('success'))
+                                        <div class="alert alert-success">
+                                            {{ Session::get('success') }}
+                                        </div>
+                                        @endif
+                                        @if (Session::get('warning'))
+                                        <div class="alert alert-warning">
+                                            {{ Session::get('warning') }}
+                                        </div>
+                                        @endif
                         <div class="row">
                             <div class="col-12">
                                 <a href="#" class="btn btn-primary" id="btnTambahdivisi">
@@ -102,24 +113,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        @if (Session::get('success'))
-                                        <div class="alert alert-success">
-                                            {{ Session::get('success') }}
-                                        </div>
-                                        @endif
-                                        @if (Session::get('warning'))
-                                        <div class="alert alert-warning">
-                                            {{ Session::get('warning') }}
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

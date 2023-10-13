@@ -200,7 +200,6 @@ public function distance($lat1, $lon1, $lat2, $lon2)
 
         $data = [
             'nik' => $nik,
-            'nama_lengkap' => $nama_lengkap,
             'tgl_izin' => $tgl_izin,
             'status' => $status,
             'keterangan' => $keterangan,
@@ -268,6 +267,14 @@ public function distance($lat1, $lon1, $lat2, $lon2)
         ->orderBy('tgl_presensi')
         ->get();
 
+        if (isset($_POST['exportexcel'])) {
+            $time = date('d-M-Y H:i:s');
+            header('Content-type: application/vnd-ms-excel');
+            header("Content-Disposition: attachment; filename=Laporan Absensi Karyawan $time.xls");
+
+            return view('presensi.cetaklaporanexcel', compact('bulan', 'tahun', 'namabulan', 'karyawan', 'presensi'));
+        }
+
         return view('presensi.cetaklaporan', compact('bulan', 'tahun', 'namabulan', 'karyawan', 'presensi'));
     }
 
@@ -322,6 +329,12 @@ public function distance($lat1, $lon1, $lat2, $lon2)
         ->whereRaw('YEAR(tgl_presensi)="'.$tahun.'"')
         ->groupByRaw('presensi.nik,nama_lengkap')
         ->get();
+
+        if (isset($_POST['exportexcel'])) {
+            $time = date('d-M-Y H:i:s');
+            header('Content-type: application/vnd-ms-excel');
+            header("Content-Disposition: attachment; filename=Rekap Absensi Karyawan $time.xls");
+        }
 
         return view('presensi.cetakrekap', compact('bulan', 'tahun', 'namabulan', 'rekap'));
     }
